@@ -1,12 +1,12 @@
 package bjetpro;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 
 import java.io.IOException;
 
-public class Base {
+public class BaseMultiDriver {
     static public Credentials prop;
     public static ConnectionDriver driver;
 
@@ -18,14 +18,14 @@ public class Base {
         }
     }
 
-    @BeforeAll
-    public static void beforeAll() {
+    @BeforeEach
+    public void createDriver() {
         WebDriverManager.chromedriver().setup();
         driver = new ConnectionDriver();
     }
 
-    @AfterAll
-    public static void quit() {
+    @AfterEach
+    public void quit() {
         driver.quit();
     }
 
