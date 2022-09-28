@@ -10,31 +10,21 @@ import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class EmployeeNameAutofill {
 
-    static public Properties prop;
+    static public Credentials prop;
     private static WebDriver driver;
 
     static {
         try {
-            prop = readPropertiesFile("app.properties");
+            prop = new Credentials("app.properties");
         } catch (IOException ex) {
             throw new RuntimeException();
-        }
-    }
-
-    public static Properties readPropertiesFile(String fileName) throws IOException {
-        try (FileInputStream fis = new FileInputStream(fileName)) {
-            Properties prop = new Properties();
-            prop.load(fis);
-            return prop;
         }
     }
 
