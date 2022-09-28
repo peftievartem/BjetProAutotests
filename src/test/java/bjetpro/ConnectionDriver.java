@@ -33,5 +33,4 @@ public class ConnectionDriver extends ChromeDriver {
         this.findElement(By.id("password")).sendKeys(creds.getProperty("password"));
         this.findElement(By.cssSelector("button[type='submit']")).click();
     }
-
 }
