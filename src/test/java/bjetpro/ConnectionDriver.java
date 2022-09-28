@@ -9,7 +9,7 @@ import java.util.concurrent.TimeUnit;
 
 
 public class ConnectionDriver extends ChromeDriver {
-    static public Credentials creds;
+    static private final Credentials creds;
 
     static {
         try {
