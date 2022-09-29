@@ -10,13 +10,13 @@ public class BaseOneDriver {
     static public Credentials prop;
     public static ConnectionDriver driver;
 
-    static {
-        try {
-            prop = new Credentials("app.properties");
-        } catch (IOException ex) {
-            throw new RuntimeException();
-        }
-    }
+//    static {
+//        try {
+//            prop = new Credentials("app.properties");
+//        } catch (IOException ex) {
+//            throw new RuntimeException();
+//        }
+//    }
 
     @BeforeAll
     public static void createDriver() {

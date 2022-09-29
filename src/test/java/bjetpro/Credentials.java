@@ -4,12 +4,20 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
 
-public class Credentials extends Properties {
+public class Credentials {
 
-    public Credentials(String fileName) throws IOException{
+    private Properties creds;
+
+    public Properties getCreds() {
+        return creds;
+    }
+
+    public Credentials(String fileName) {
         try (FileInputStream fis = new FileInputStream(fileName)) {
-            this.load(fis);
+            creds = new Properties();
+            creds.load(fis);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
-
     }
 }

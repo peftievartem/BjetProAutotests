@@ -1,7 +1,7 @@
 package bjetpro;
 
 
-import org.junit.jupiter.api.Test;
+import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -11,12 +11,18 @@ import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class EmployeeNameAutoFill extends BaseMultiDriver {
+public class EmployeeNameAutoFill extends BaseMultiSessionTest {
+
+    static String fullName;
+
+    private EmployeeNameAutoFill(){
+        fullName = new Credentials("UserData.properties").getCreds().getProperty("employeeFullName");
+    }
 
     private static Stream<Arguments> employeesNames() {
         return Stream.of(
-                Arguments.of("Peftiiev Artem Yurievich", "Peftiiev", "Artem", "Yurievich"),
-                Arguments.of("Gorodnychyi Oleksii", "Gorodnychyi", "Oleksii", "")
+                Arguments.of(fullName, "Peftiiev", "Artem", "Yurievich"),
+                Arguments.of("Gorodnychyi Oleksii", "Gorodnychyi", "Oleksii", "Ol")
         );
     }
 
@@ -33,11 +39,17 @@ public class EmployeeNameAutoFill extends BaseMultiDriver {
         driver.findElement(By.cssSelector("input[name='surname']")).click();
         driver.findElement(By.cssSelector("input[name='name']")).sendKeys("aaaaaa");
 
+        SoftAssertions softAssertions = new SoftAssertions();
+
         String expectedText = driver.findElement(By.cssSelector("input[name='surname']")).getAttribute("value");
-        assertEquals(expectedText, surname);
+        softAssertions.assertThat(expectedText).isEqualTo(surname);
+
         expectedText = driver.findElement(By.cssSelector("input[name='first_name']")).getAttribute("value");
-        assertEquals(expectedText, first_name);
+        softAssertions.assertThat(expectedText).isEqualTo(first_name);
+
         expectedText = driver.findElement(By.cssSelector("input[name='patronymic']")).getAttribute("value");
-        assertEquals(expectedText, patronymic);
+        softAssertions.assertThat(expectedText).isEqualTo(patronymic);
+
+        softAssertions.assertAll();
     }
 }
