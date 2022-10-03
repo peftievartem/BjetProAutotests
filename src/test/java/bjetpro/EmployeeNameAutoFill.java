@@ -1,55 +1,121 @@
 package bjetpro;
 
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-import org.openqa.selenium.By;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.Arrays;
 import java.util.stream.Stream;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class EmployeeNameAutoFill extends BaseMultiSessionTest {
 
-    static String fullName;
-
-    private EmployeeNameAutoFill(){
-        fullName = new Credentials("UserData.properties").getCreds().getProperty("employeeFullName");
+    private static Stream<employeesFullName> getFromJSONFile() {
+        ObjectMapper mapper = new ObjectMapper();
+        employeesFullName[] userData = new employeesFullName[0];
+        try {
+            userData = mapper.readValue(new File("src/test/java/bjetpro/UserData.json"), employeesFullName[].class);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return Arrays.stream(userData);
     }
+
 
     private static Stream<Arguments> employeesNames() {
         return Stream.of(
-                Arguments.of(fullName, "Peftiiev", "Artem", "Yurievich"),
-                Arguments.of("Gorodnychyi Oleksii", "Gorodnychyi", "Oleksii", "Ol")
+                Arguments.of("Peftiiev Artem Yurievich", "Peftiiev", "Artem", "Yurievich"),
+                Arguments.of("Gorodnychyi Oleksii", "Gorodnychyi", "Oleksii", "")
         );
     }
 
-    @ParameterizedTest()
-    @MethodSource("employeesNames")
-    public void autofillNameSurnamePatronymic2(String name, String surname, String first_name, String patronymic) {
-//        driver.get(prop.getProperty("url"));
+    //    @ParameterizedTest
+//    @JsonFileSource(resources = "/UserData.json")
+//    public void autofillNameSurnamePatronymic(JsonObject object) {
+//
+//        String name = object.getString("name");
+//        String surname = object.getString("surname");
+//        String first_name = object.getString("first_name");
+//        String patronymic = object.getString("patronymic");
+    @ParameterizedTest
+    @MethodSource("getFromJSONFile")
+    public void autofillNameSurnamePatronymic(employeesFullName ele) {
 
-        driver.findElement(By.cssSelector(".app-sidebar-menu a[data-menu-xmlid='hr.menu_hr_root']")).click();
-        driver.findElement(By.cssSelector(".o-kanban-button-new")).click();
+        String name = ele.getName();
+        String surname = ele.getSurname();
+        String first_name = ele.getFirst_name();
+        String patronymic = ele.getPatronymic();
 
-        driver.findElement(By.cssSelector("input[name='name']")).sendKeys(name);
+        clickBySelector(".app-sidebar-menu a[data-menu-xmlid='hr.menu_hr_root']");
+        clickBySelector(".o-kanban-button-new");
+        sendBySelector("input[name='name']", name);
 
-        driver.findElement(By.cssSelector("input[name='surname']")).click();
-        driver.findElement(By.cssSelector("input[name='name']")).sendKeys("aaaaaa");
+        clickBySelector("input[name='surname']");
+//        driver.findElement(By.cssSelector("input[name='name']")).sendKeys("aaaaaa");
 
         SoftAssertions softAssertions = new SoftAssertions();
 
-        String expectedText = driver.findElement(By.cssSelector("input[name='surname']")).getAttribute("value");
+        String expectedText = getValueBySelector("input[name='surname']");
         softAssertions.assertThat(expectedText).isEqualTo(surname);
 
-        expectedText = driver.findElement(By.cssSelector("input[name='first_name']")).getAttribute("value");
+        expectedText = getValueBySelector("input[name='first_name']");
         softAssertions.assertThat(expectedText).isEqualTo(first_name);
 
-        expectedText = driver.findElement(By.cssSelector("input[name='patronymic']")).getAttribute("value");
+        expectedText = getValueBySelector("input[name='patronymic']");
         softAssertions.assertThat(expectedText).isEqualTo(patronymic);
 
         softAssertions.assertAll();
     }
+//    @ParameterizedTest
+    @MethodSource("employeesNames")
+    public void autofillNameSurnamePatronymic2(String name, String surname, String first_name, String patronymic) {
+
+        clickBySelector(".app-sidebar-menu a[data-menu-xmlid='hr.menu_hr_root']");
+        clickBySelector(".o-kanban-button-new");
+        sendBySelector("input[name='name']", name);
+
+        clickBySelector("input[name='surname']");
+//        driver.findElement(By.cssSelector("input[name='name']")).sendKeys("aaaaaa");
+
+        SoftAssertions softAssertions = new SoftAssertions();
+
+        String expectedText = getValueBySelector("input[name='surname']");
+        softAssertions.assertThat(expectedText).isEqualTo(surname);
+
+        expectedText = getValueBySelector("input[name='first_name']");
+        softAssertions.assertThat(expectedText).isEqualTo(first_name);
+
+        expectedText = getValueBySelector("input[name='patronymic']");
+        softAssertions.assertThat(expectedText).isEqualTo(patronymic);
+
+        softAssertions.assertAll();
+    }
+}
+
+class employeesFullName {
+    private String name;
+    private String surname;
+    private String first_name;
+    private String patronymic;
+
+    public String getName() {
+        return name;
+    }
+
+    public String getSurname() {
+        return surname;
+    }
+
+    public String getFirst_name() {
+        return first_name;
+    }
+
+    public String getPatronymic() {
+        return patronymic;
+    }
+
 }
