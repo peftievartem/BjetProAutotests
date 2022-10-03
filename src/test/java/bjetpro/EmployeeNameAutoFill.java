@@ -70,8 +70,9 @@ public class EmployeeNameAutoFill extends BaseMultiSessionTest {
 
         softAssertions.assertAll();
     }
-//    @ParameterizedTest
-    @MethodSource("employeesNames")
+
+    //    @ParameterizedTest
+//    @MethodSource("employeesNames")
     public void autofillNameSurnamePatronymic2(String name, String surname, String first_name, String patronymic) {
 
         clickBySelector(".app-sidebar-menu a[data-menu-xmlid='hr.menu_hr_root']");
