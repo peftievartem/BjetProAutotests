@@ -26,6 +26,11 @@ hs_err_pid*
 
 /.idea
 
+# Mac OS
+.DS_Store
+src/.DS_Store
+src/test/.DS_Store
+
 ### Gradle ###
 /.gradle
 /build/
