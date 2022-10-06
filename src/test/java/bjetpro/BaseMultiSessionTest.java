@@ -42,30 +42,27 @@ public abstract class BaseMultiSessionTest {
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 
         driver.get(creds.getProperty("url"));
-        clickByText(creds.getProperty("base"));
-        sendById("login", creds.getProperty("login"));
-        sendById("password", creds.getProperty("password"));
-        clickBySelector("button[type='submit']");
+        click(By.linkText(creds.getProperty("base")));
+        sendString(By.id("login"), creds.getProperty("login"));
+        sendString(By.id("password"), creds.getProperty("password"));
+
+        click(By.cssSelector("button[type='submit']"));
     }
 
     public void clickByText(String linkText) {
         driver.findElement(By.linkText(linkText)).click();
     }
 
-    public void clickBySelector(String linkSelector) {
-        driver.findElement(By.cssSelector(linkSelector)).click();
+    public void click(By ele) {
+        driver.findElement(ele).click();
     }
 
-    public void sendById(String nameId, String linkText) {
-        driver.findElement(By.id(nameId)).sendKeys(linkText);
+    public void sendString(By ele, String value) {
+        driver.findElement(ele).sendKeys(value);
     }
 
-    public void sendBySelector(String nameSelector, String linkText) {
-        driver.findElement(By.cssSelector(nameSelector)).sendKeys(linkText);
-    }
-
-    public String getValueBySelector(String nameSelector) {
-        return driver.findElement(By.cssSelector(nameSelector)).getAttribute("value");
+    public String getStringValue(By ele) {
+        return driver.findElement(ele).getAttribute("value");
 
     }
 
@@ -74,9 +71,6 @@ public abstract class BaseMultiSessionTest {
         driver = new ChromeDriver();
 
         login();
-
-//        Shared a = new Shared(driver);
-//        a.login(getCreds());
     }
 
     @AfterEach
