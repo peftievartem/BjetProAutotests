@@ -11,7 +11,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.stream.Stream;
 
 public class Test7361 extends BaseMultiSessionTest{
-    // https://bjet.atlassian.net/browse/BJET-7361
+    // BJET-7361
 
     private static Stream<Arguments> times() {
         return Stream.of(
