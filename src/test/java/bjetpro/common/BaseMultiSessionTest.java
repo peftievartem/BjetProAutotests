@@ -80,6 +80,7 @@ public abstract class BaseMultiSessionTest {
     public String getStringValue(By ele) {
         return element(ele).getAttribute("value");
     }
+
     public String getStringValue(String sel) {
         return element(sel).getAttribute("value");
     }
