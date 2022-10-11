@@ -46,13 +46,13 @@ public class EmployeeNameAutoFill extends BaseMultiSessionTest {
 
         SoftAssertions softAssertions = new SoftAssertions();
 
-        String expectedText = getStringValue(By.cssSelector("input[name='surname']"));
+        String expectedText = getStringValue("input[name='surname']");
         softAssertions.assertThat(expectedText).isEqualTo(surname);
 
-        expectedText = getStringValue(By.cssSelector("input[name='first_name']"));
+        expectedText = getStringValue("input[name='first_name']");
         softAssertions.assertThat(expectedText).isEqualTo(first_name);
 
-        expectedText = getStringValue(By.cssSelector("input[name='patronymic']"));
+        expectedText = getStringValue("input[name='patronymic']");
         softAssertions.assertThat(expectedText).isEqualTo(patronymic);
 
         softAssertions.assertAll();

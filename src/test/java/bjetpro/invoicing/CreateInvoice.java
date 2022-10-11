@@ -3,7 +3,6 @@ package bjetpro.invoicing;
 import bjetpro.common.BaseMultiSessionTest;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.Test;
-import org.openqa.selenium.By;
 
 
 public class CreateInvoice extends BaseMultiSessionTest {
@@ -23,9 +22,8 @@ public class CreateInvoice extends BaseMultiSessionTest {
         String expectedText = "";
 
         waitOLoading();
-//        wait.until(ExpectedConditions.attributeToBe(By.cssSelector(".o_loading"), "style", "display: none;"));
 
-        expectedText = getText(By.cssSelector("ul[style^='display: block;'] li:nth-child(4) a"));
+        expectedText = getText("ul[style^='display: block;'] li:nth-child(4) a");
         click("ul[style^='display: block;'] li:nth-child(4) a");
 
         sendString("table div[name='date_invoice'] input.o_input", "11/13/2022");
@@ -34,7 +32,6 @@ public class CreateInvoice extends BaseMultiSessionTest {
         click("div[name='invoice_line_ids'] .o_data_row:first-child div[name='product_id']:first-child");
 
         waitOLoading();
-//        wait.until(ExpectedConditions.attributeToBe(By.cssSelector(".o_loading"), "style", "display: none;"));
         click("ul[style^='display: block;'] li:first-child a");
 
         click(".o_statusbar_buttons_container .o_invoice_validate");
@@ -44,8 +41,6 @@ public class CreateInvoice extends BaseMultiSessionTest {
 
         SoftAssertions softAssertions = new SoftAssertions();
         System.out.println(expectedText);
-        softAssertions.assertThat(expectedText).isEqualTo(driver.findElement(By.cssSelector(".o_view_manager_content .o_data_row td:nth-child(2)")));
-
+        softAssertions.assertThat(expectedText).isEqualTo(element(".o_view_manager_content .o_data_row td:nth-child(2)"));
     }
-
 }
