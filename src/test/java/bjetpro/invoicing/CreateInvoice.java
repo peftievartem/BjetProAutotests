@@ -1,58 +1,46 @@
 package bjetpro.invoicing;
 
-import bjetpro.BaseMultiSessionTest;
+import bjetpro.common.BaseMultiSessionTest;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.MethodSource;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
-import org.openqa.selenium.support.ui.Wait;
-
-import java.util.concurrent.TimeUnit;
-import java.util.stream.Stream;
 
 
-public class CreateInvoice extends BaseMultiSessionTest{
+public class CreateInvoice extends BaseMultiSessionTest {
 
     @Test()
     public void simpleCreateInvoiceTest() throws InterruptedException {
-        WebDriverWait wait = new WebDriverWait(driver,10);
 
-        driver.findElement(By.cssSelector(".app-sidebar-menu a[data-menu-xmlid='bjet_invoicing_menu.bjet_invoicing_menu']")).click();
-        driver.findElement(By.cssSelector("a[data-menu-xmlid='bjet_invoicing_menu.invoicing_menu_action_invoice_tree1']")).click();
+        click(".app-sidebar-menu a[data-menu-xmlid='bjet_invoicing_menu.bjet_invoicing_menu']");
+        click("a[data-menu-xmlid='bjet_invoicing_menu.invoicing_menu_action_invoice_tree1']");
 
+        waitOLoading();
+//        wait.until(ExpectedConditions.attributeToBe(By.cssSelector(".o_loading"), "style", "display: none;"));
+        click(".o_cp_buttons .o_list_button_add");
 
-        wait.until(ExpectedConditions.attributeToBe(By.cssSelector(".o_loading"), "style", "display: none;"));
-        driver.findElement(By.cssSelector(".o_cp_buttons .o_list_button_add")).click();
-        
-        driver.findElement(By.cssSelector("div[name='partner_id'] input")).click();
+        click("div[name='partner_id'] input");
 
         String expectedText = "";
 
-        wait.until(ExpectedConditions.attributeToBe(By.cssSelector(".o_loading"), "style", "display: none;"));
+        waitOLoading();
+//        wait.until(ExpectedConditions.attributeToBe(By.cssSelector(".o_loading"), "style", "display: none;"));
 
-        expectedText = driver.findElement(By.cssSelector("ul[style^='display: block;'] li:nth-child(4) a")).getText();
-        driver.findElement(By.cssSelector("ul[style^='display: block;'] li:nth-child(4) a")).click();
+        expectedText = getText(By.cssSelector("ul[style^='display: block;'] li:nth-child(4) a"));
+        click("ul[style^='display: block;'] li:nth-child(4) a");
 
+        sendString("table div[name='date_invoice'] input.o_input", "11/13/2022");
 
-        driver.findElement(By.cssSelector("table div[name='date_invoice'] input.o_input")).sendKeys("11/13/2022");
+        click("div[name='invoice_line_ids'] .o_field_x2many_list_row_add a");
+        click("div[name='invoice_line_ids'] .o_data_row:first-child div[name='product_id']:first-child");
 
+        waitOLoading();
+//        wait.until(ExpectedConditions.attributeToBe(By.cssSelector(".o_loading"), "style", "display: none;"));
+        click("ul[style^='display: block;'] li:first-child a");
 
-        driver.findElement(By.cssSelector("div[name='invoice_line_ids'] .o_field_x2many_list_row_add a")).click();
-        driver.findElement(By.cssSelector("div[name='invoice_line_ids'] .o_data_row:first-child div[name='product_id']:first-child")).click();
+        click(".o_statusbar_buttons_container .o_invoice_validate");
 
-        wait.until(ExpectedConditions.attributeToBe(By.cssSelector(".o_loading"), "style", "display: none;"));
-        driver.findElement(By.cssSelector("ul[style^='display: block;'] li:first-child a")).click();
-
-        driver.findElement(By.cssSelector(".o_statusbar_buttons_container .o_invoice_validate")).click();
-
-        driver.findElement(By.cssSelector(".o_cp_buttons .o_form_button_save")).click();
-        driver.findElement(By.cssSelector("a[data-menu-xmlid='bjet_invoicing_menu.invoicing_menu_action_invoice_tree1']")).click();
+        click(".o_cp_buttons .o_form_button_save");
+        click("a[data-menu-xmlid='bjet_invoicing_menu.invoicing_menu_action_invoice_tree1']");
 
         SoftAssertions softAssertions = new SoftAssertions();
         System.out.println(expectedText);

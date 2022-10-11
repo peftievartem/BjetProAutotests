@@ -1,5 +1,6 @@
 package bjetpro;
 
+import bjetpro.common.BaseMultiSessionTest;
 import org.assertj.core.api.SoftAssertions;
 
 import org.junit.jupiter.params.ParameterizedTest;
@@ -10,7 +11,7 @@ import org.openqa.selenium.By;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Stream;
 
-public class Test7361 extends BaseMultiSessionTest{
+public class Test7361 extends BaseMultiSessionTest {
     // BJET-7361
 
     private static Stream<Arguments> times() {
@@ -26,19 +27,17 @@ public class Test7361 extends BaseMultiSessionTest{
     @MethodSource("times")
     public void annualTemplatesTest(String timeFrom, String timeTo, boolean result) {
 
-        driver.findElement(By.cssSelector(".app-sidebar-menu a[data-menu-xmlid='hr_payroll.menu_hr_payroll_root']")).click();
-        driver.findElement(By.linkText("Configuration")).click();
-        driver.findElement(By.cssSelector(".o_sub_menu_content a[data-menu-xmlid='l10n_ua_hr_payroll.menu_hr_schedule_templates']")).click();
-        driver.findElement(By.cssSelector(".o_data_row:nth-child(1)")).click();
-        driver.findElement(By.cssSelector(".o_form_buttons_view .o_form_button_edit")).click();
-
-        driver.findElement(By.cssSelector(".o_data_row:nth-child(1) > .o_data_cell:nth-child(3)")).click();
-        driver.findElement(By.cssSelector(".o_data_row:nth-child(1) > .o_data_cell:nth-child(3) input")).sendKeys(timeFrom);
-
-        driver.findElement(By.cssSelector(".o_data_row:nth-child(1) > .o_data_cell:nth-child(4)")).click();
-        driver.findElement(By.cssSelector(".o_data_row:nth-child(1) > .o_data_cell:nth-child(4) input")).sendKeys(timeTo);
-
-        driver.findElement(By.cssSelector(".o_form_buttons_edit .o_form_button_save")).click();
+        click(".app-sidebar-menu a[data-menu-xmlid='hr_payroll.menu_hr_payroll_root']");
+        click(By.linkText("Configuration"));
+        click(".o_sub_menu_content a[data-menu-xmlid='l10n_ua_hr_payroll.menu_hr_schedule_templates']");
+        click(".o_data_row:nth-child(1)");
+        click(".o_form_buttons_view .o_form_button_edit");
+        click(".o_data_row:nth-child(1) > .o_data_cell:nth-child(3)");
+        sendString(".o_data_row:nth-child(1) > .o_data_cell:nth-child(3) input", timeFrom);
+        click(".o_data_row:nth-child(1) > .o_data_cell:nth-child(4)");
+        sendString("table div[name='date_invoice'] input.o_input", "11/13/2022");
+        sendString(".o_data_row:nth-child(1) > .o_data_cell:nth-child(4) input", timeTo);
+        click(".o_form_buttons_edit .o_form_button_save");
 
         SoftAssertions softAssertions = new SoftAssertions();
 

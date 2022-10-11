@@ -1,4 +1,4 @@
-package bjetpro;
+package bjetpro.employee;
 
 
 import bjetpro.common.BaseMultiSessionTest;
@@ -38,11 +38,11 @@ public class EmployeeNameAutoFill extends BaseMultiSessionTest {
         String first_name = ele.getFirst_name();
         String patronymic = ele.getPatronymic();
 
-        click(By.cssSelector(".app-sidebar-menu a[data-menu-xmlid='hr.menu_hr_root']"));
-        click(By.cssSelector(".o-kanban-button-new"));
-        sendString(By.cssSelector("input[name='name']"), name);
+        click(".app-sidebar-menu a[data-menu-xmlid='hr.menu_hr_root']");
+        click(".o-kanban-button-new");
+        sendString("input[name='name']", name);
 
-        click(By.cssSelector("input[name='surname']"));
+        click("input[name='surname']");
 
         SoftAssertions softAssertions = new SoftAssertions();
 
