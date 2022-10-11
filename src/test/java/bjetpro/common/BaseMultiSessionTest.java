@@ -1,4 +1,4 @@
-package bjetpro;
+package bjetpro.common;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.junit.jupiter.api.AfterEach;
@@ -39,7 +39,7 @@ public abstract class BaseMultiSessionTest {
 
     public void login() {
         driver.manage().window().setSize(new Dimension(1850, 1053));
-        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+        driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
 
         driver.get(creds.getProperty("url"));
         click(By.linkText(creds.getProperty("base")));
@@ -47,10 +47,6 @@ public abstract class BaseMultiSessionTest {
         sendString(By.id("password"), creds.getProperty("password"));
 
         click(By.cssSelector("button[type='submit']"));
-    }
-
-    public void clickByText(String linkText) {
-        driver.findElement(By.linkText(linkText)).click();
     }
 
     public void click(By ele) {

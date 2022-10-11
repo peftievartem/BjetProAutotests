@@ -1,21 +1,19 @@
 package bjetpro;
 
 
+import bjetpro.common.BaseMultiSessionTest;
+import bjetpro.common.ParseJson;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.openqa.selenium.By;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Stream;
 
 public class EmployeeNameAutoFill extends BaseMultiSessionTest {
-
-    private static Stream<employeesFullName> getFromJSONFile() {
-        return new ParseJson<employeesFullName>("src/test/java/bjetpro/UserData.json").ParseJson0("src/test/java/bjetpro/UserData.json");
-//        return new ParseJson<employeesFullName>("src/test/java/bjetpro/UserData.json").getData();
-    }
-
 
     private static Stream<Arguments> employeesNames() {
         return Stream.of(
@@ -24,17 +22,16 @@ public class EmployeeNameAutoFill extends BaseMultiSessionTest {
         );
     }
 
-    //    @ParameterizedTest
-//    @JsonFileSource(resources = "UserData.json")
-//    public void autofillNameSurnamePatronymic(JsonObject object) {
-//
-//        String name = object.getString("name");
-//        String surname = object.getString("surname");
-//        String first_name = object.getString("first_name");
-//        String patronymic = object.getString("patronymic");
+    private static Stream<Arguments> getFromJSONFile() {
+        List<Arguments> result = new ArrayList<>();
+        ParseJson.getStream("UserData.json", EmployeeFullName.class)
+                .forEach(element -> result.add(Arguments.of(element)));
+        return result.stream();
+    }
+
     @ParameterizedTest
     @MethodSource("getFromJSONFile")
-    public void autofillNameSurnamePatronymic(employeesFullName ele) {
+    public void autofillNameSurnamePatronymic(EmployeeFullName ele) {
 
         String name = ele.getName();
         String surname = ele.getSurname();
@@ -62,7 +59,7 @@ public class EmployeeNameAutoFill extends BaseMultiSessionTest {
     }
 }
 
-class employeesFullName {
+class EmployeeFullName {
     private String name;
     private String surname;
     private String first_name;
