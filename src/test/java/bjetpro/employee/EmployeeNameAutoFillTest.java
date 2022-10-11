@@ -7,13 +7,12 @@ import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-import org.openqa.selenium.By;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
-public class EmployeeNameAutoFill extends BaseMultiSessionTest {
+public class EmployeeNameAutoFillTest extends BaseMultiSessionTest {
 
     private static Stream<Arguments> employeesNames() {
         return Stream.of(
@@ -46,13 +45,13 @@ public class EmployeeNameAutoFill extends BaseMultiSessionTest {
 
         SoftAssertions softAssertions = new SoftAssertions();
 
-        String expectedText = getStringValue(By.cssSelector("input[name='surname']"));
+        String expectedText = getStringValue("input[name='surname']");
         softAssertions.assertThat(expectedText).isEqualTo(surname);
 
-        expectedText = getStringValue(By.cssSelector("input[name='first_name']"));
+        expectedText = getStringValue("input[name='first_name']");
         softAssertions.assertThat(expectedText).isEqualTo(first_name);
 
-        expectedText = getStringValue(By.cssSelector("input[name='patronymic']"));
+        expectedText = getStringValue("input[name='patronymic']");
         softAssertions.assertThat(expectedText).isEqualTo(patronymic);
 
         softAssertions.assertAll();
