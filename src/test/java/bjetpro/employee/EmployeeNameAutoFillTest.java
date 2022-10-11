@@ -7,13 +7,12 @@ import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-import org.openqa.selenium.By;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
-public class EmployeeNameAutoFill extends BaseMultiSessionTest {
+public class EmployeeNameAutoFillTest extends BaseMultiSessionTest {
 
     private static Stream<Arguments> employeesNames() {
         return Stream.of(
