@@ -22,10 +22,7 @@ public class EmployeeNameAutoFillTest extends BaseMultiSessionTest {
     }
 
     private static Stream<Arguments> getFromJSONFile() {
-        List<Arguments> result = new ArrayList<>();
-        ParseJson.getStream("UserData.json", EmployeeFullName.class)
-                .forEach(element -> result.add(Arguments.of(element)));
-        return result.stream();
+        return ParseJson.getStream("UserData.json", EmployeeFullName.class);
     }
 
     @ParameterizedTest

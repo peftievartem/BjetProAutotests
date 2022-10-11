@@ -2,6 +2,7 @@ package bjetpro.common;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.CollectionType;
+import org.junit.jupiter.params.provider.Arguments;
 
 import java.io.File;
 import java.io.IOException;
@@ -15,7 +16,7 @@ public class ParseJson {
 
     private static final Path resourceDirectory = Paths.get("src", "test", "resources");
 
-    public static <T> Stream<T> getStream(String fileName, Class<T> cl) {
+    public static <T> Stream<Arguments> getStream(String fileName, Class<T> cl) {
 
         File file = new File(resourceDirectory.toString() + "/" + fileName);
 
@@ -29,6 +30,8 @@ public class ParseJson {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return userData.stream();
+        List<Arguments> result = new ArrayList<>();
+        userData.forEach(element -> result.add(Arguments.of(element)));
+        return result.stream();
     }
 }
